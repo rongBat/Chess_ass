@@ -1,16 +1,31 @@
+
+String filename;
+Square newGameArray[][];
+
+
+
+
+
+
+
+
 void mousePressed(MouseEvent event) {
   // only take input once board is showing:
   if (!welcomeScreenShowing) {
 
     int clickX = event.getX();
     int clickY = event.getY();
+    println(clickX, clickY);
+
+    if (clickX >= 290 && clickX <= 410 && clickY >=20 && clickY <= 50) { // if click was in load button
+      selectInput("Select a file to Load:", "fileSelected"); }
+    
 
 
-    if (clickY < 160) { // if click was in top bar
-      //TODO: detect which menu button was pressed
-    } else {
+    //TODO: detect which menu button was pressed
+  else {
 
-      if (selected == null) { // if first click
+      if (clickY >160 && selected == null) { // if first click
         Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
 
         // if the clicked square isn't empty:
@@ -25,7 +40,7 @@ void mousePressed(MouseEvent event) {
           Square target = new Square(clickedSquare.X, clickedSquare.Y);
 
           // if valid move
-          if (gameBoard.getPiece(selected).isvalidMove(selected,target)) {
+          if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
             // move selected piece to target square
             //add if piece selected is the same as target, not valid
             gameBoard.movePiece(selected, target);
@@ -37,6 +52,21 @@ void mousePressed(MouseEvent event) {
     }
   }
 }
+
+
+
+void fileSelected(File selection) {
+  if (selection !=null) {
+    filename=selection.getAbsolutePath();
+    newGameArray=loadStrings(filename);
+
+  }
+}
+
+
+
+
+
 
 Board loadFile() { // STUB: to be replaced with file loading
   Board board = new Board();

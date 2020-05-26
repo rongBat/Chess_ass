@@ -1,0 +1,22 @@
+void mousePressed() {
+  if (!bitDepth.mouseOver()) {
+    if (image==null) selectInput("Select a raster image to show:", "fileSelected");
+    else saveStrings(filename+".csv", imageCSV(image));
+  }
+}
+
+void fileSelected(File selection) {
+  if (selection !=null) {
+    filename=selection.getAbsolutePath();
+    image=loadImage(filename);
+    image.resize(image.width>width?width:image.width, image.height>height?height:image.height);
+    redraw();
+  }
+}
+
+
+
+
+
+Sequential Access
+
