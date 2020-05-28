@@ -1,6 +1,6 @@
 
 String filename;
-Square newGameArray[][];
+Square[] newGameArray;
 
 
 
@@ -18,12 +18,13 @@ void mousePressed(MouseEvent event) {
     println(clickX, clickY);
 
     if (clickX >= 290 && clickX <= 410 && clickY >=20 && clickY <= 50) { // if click was in load button
-      selectInput("Select a file to Load:", "fileSelected"); }
-    
+      selectInput("Select a file to Load:", "fileSelected");
+    }
+
 
 
     //TODO: detect which menu button was pressed
-  else {
+    else {
 
       if (clickY >160 && selected == null) { // if first click
         Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
@@ -58,11 +59,15 @@ void mousePressed(MouseEvent event) {
 void fileSelected(File selection) {
   if (selection !=null) {
     filename=selection.getAbsolutePath();
-    newGameArray=loadStrings(filename);
-
+    println(filename);
+    //newGameSetup(filename, newGameArray);
   }
-}
+} 
 
+/*Square[] newGameSetup(String filename, Square[] newGameArray) {
+  newGameArray = append(newGameArray, "loadStrings(filename)");
+  return newGameArray;
+}*/
 
 
 
