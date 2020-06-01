@@ -1,7 +1,6 @@
 
 String filename;
-Square[] newGameArray;
-
+Piece[] newGameArray;
 
 
 
@@ -60,14 +59,19 @@ void fileSelected(File selection) {
   if (selection !=null) {
     filename=selection.getAbsolutePath();
     println(filename);
-    //newGameSetup(filename, newGameArray);
+    readArray(filename, newGameArray);
+
   }
 } 
 
-/*Square[] newGameSetup(String filename, Square[] newGameArray) {
-  newGameArray = append(newGameArray, "loadStrings(filename)");
+Piece[] readArray(String filename, Piece[] newGameArray) {
+  String array[] = loadStrings("filename");
+  for (int i =0; i < array.length; i=i+4) {
+    newGameArray =(Piece[]) append(newGameArray, new Piece(array[i],new Square(int( array[i+1]),int(array[i+2])),array[i+3] ));
+  }
+
   return newGameArray;
-}*/
+} 
 
 
 
