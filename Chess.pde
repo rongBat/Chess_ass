@@ -13,7 +13,7 @@ void setup() {
   frameRate(60);
   size(800, 880);
 
-  gameBoard = loadFile();
+  gameBoard = loadFile(newGameArray, fileLoaded);
 
   selected = null;
 
