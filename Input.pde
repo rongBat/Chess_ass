@@ -72,7 +72,7 @@ Piece[] readArray(String filename) {
   printArray(array);
   println(array.length);
   for (int i =0; i < array.length; i=i+3) {
-    String[] coords=split(array[i+1],',');
+    String[] coords=split(array[i+1], ',');
     newGameArray =(Piece[]) append(newGameArray, new Piece(array[i], new Square(int(coords[0]), int(coords[1])), array[i+2] ));
   }
   printArray(newGameArray);
@@ -84,9 +84,9 @@ Piece[] readArray(String filename) {
 
 
 
-Board loadFile(Piece[] newGameArray, Boolean fileLoaded) { // STUB: to be replaced with file loading
+Board loadFile(Piece[] newGameArray, Boolean fileLoaded) { 
   Board board = new Board();
-  if (!fileLoaded) {
+  if (!fileLoaded) { // if no file has been selected, will always be false on startup
 
     // setup default chess board
     board.addPiece(new Rook(0, 0, "black"));
@@ -108,11 +108,10 @@ Board loadFile(Piece[] newGameArray, Boolean fileLoaded) { // STUB: to be replac
     board.addPiece(new Knight(6, 7, "white"));
     board.addPiece(new Rook(7, 7, "white"));
     for (int i=0; i<8; i++) board.addPiece(new Pawn(i, 6, "white"));
-  } else { for(int i=0; i < newGameArray.length;i++){
-    board.addPiece( newGameArray[i](newGameArray[i].Position.X, newGameArray[i].Position.Y,"newGameArray[i].colour"));
-    
-    
-  }
+  } else { 
+    for (int i=0; i < newGameArray.length; i++) {
+      board.addPiece( newGameArray[i].Type, newGameArray[i].Position.X, newGameArray[i].Position.Y, newGameArray[i].Colour);
+    }
   }
   return board;
 }
