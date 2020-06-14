@@ -1,3 +1,11 @@
-Bishop
-3,2
-BLACK
+Bishop,3,0,black
+Knight,3,2,white
+King,3,1,black
+
+
+Knight,3,4,black
+Bishop,3,5,white
+Bishop,3,6,black
+
+
+*

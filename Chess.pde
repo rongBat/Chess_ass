@@ -13,7 +13,8 @@ void setup() {
   frameRate(60);
   size(800, 880);
 
-  gameBoard = loadFile(newGameArray, fileLoaded);
+  gameBoard = new Board(8);
+  gameBoard.resetBoard();
 
   selected = null;
 

@@ -88,8 +88,8 @@ void drawBoard() { // generate checkerboard image
 
 void drawPieces() {
   imageMode(CENTER);
-  for (int X = 0; X < 8; X++) { // for each square on the board
-    for (int Y = 0; Y < 8; Y++) { 
+  for (int X = 0; X < gameBoard.size; X++) { // for each square on the board
+    for (int Y = 0; Y < gameBoard.size; Y++) { 
 
       if (gameBoard.Pieces[X][Y] != null) { // if array element not empty
         int pieceSize;

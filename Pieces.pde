@@ -1,4 +1,4 @@
-// handy integer position storage //<>//
+// handy integer position storage //<>// //<>//
 class Square {
   int X, Y;
   Square(int x, int y) {
@@ -18,7 +18,7 @@ class Piece {
   Piece(String type, Square position, String colour) { 
     Type=type;
     Position=position;
-    Colour=colour;
+    Colour=colour.toLowerCase();
   }
 
   int x() {
@@ -49,7 +49,7 @@ class Bishop extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour=="black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackBishop;
     } else { 
       return images.img_WhiteBishop;
@@ -74,7 +74,7 @@ class King extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour=="black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackKing;
     } else { 
       return images.img_WhiteKing;
@@ -100,7 +100,7 @@ class Queen extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour == "black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackQueen;
     } else { 
       return images.img_WhiteQueen;
@@ -127,7 +127,7 @@ class Pawn extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour == "black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackPawn;
     } else { 
       return images.img_WhitePawn;
@@ -137,11 +137,16 @@ class Pawn extends Piece {
   boolean isvalidMove(Square target, Square selected) {
     int x_diff = (selected.X-target.X);
     int y_diff = (selected.Y-target.Y);
-    if (y_diff==1 && x_diff==0 || target.Y==1 && y_diff ==2 && x_diff==0 || target.Y==6 && y_diff==-2 && x_diff==0) {
-      return true;
-    } else { 
-      return false;
+    if (this.Colour.equals("black") == true) {
+      //home row can move two spaces
+      if (selected.X==1 && y_diff==2 && x_diff == 0) return true;
+      if (y_diff==1  && x_diff == 0) return true;
+    } else {
+      //home row can move two spaces
+      if (selected.X==6 && y_diff==-2  && x_diff == 0) return true;
+      if (y_diff==-1  && x_diff == 0) return true;
     }
+    return false;
   }
 }
 
@@ -154,7 +159,7 @@ class Rook extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour=="black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackRook;
     } else { 
       return images.img_WhiteRook;
@@ -177,7 +182,7 @@ class Knight extends Piece {
   }
 
   PImage getImage() {
-    if (this.Colour=="black") {
+    if (this.Colour.equals("black") == true) {
       return images.img_BlackKnight;
     } else { 
       return images.img_WhiteKnight;

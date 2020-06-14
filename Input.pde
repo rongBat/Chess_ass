@@ -1,6 +1,6 @@
 Boolean fileLoaded = false;
 String filename;
-Piece[] newGameArray;
+Piece[][] newGameArray;
 
 
 
@@ -35,17 +35,21 @@ void mousePressed(MouseEvent event) {
       } else { // if a piece is already selected
         Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
 
-        // if target square is empty:
-        if (gameBoard.getPiece(clickedSquare) == null) { 
-          Square target = new Square(clickedSquare.X, clickedSquare.Y);
 
-          // if valid move
-          if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
-            // move selected piece to target square
-            //add if piece selected is the same as target, not valid
-            gameBoard.movePiece(selected, target);
+        Square target = new Square(clickedSquare.X, clickedSquare.Y);
+
+        // if valid move
+        if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
+          // if the target square is occupied
+          if (gameBoard.getPiece(target)!=null) {
+              // clear occupied square
+              gameBoard.removePiece(target);
           }
-        } // else just clear selection ( as target square was taken):
+
+          // move selected piece to target square
+          //add if piece selected is the same as target, not valid
+          gameBoard.movePiece(selected, target);
+        }
 
         selected = null; // always clear selected if move was successful or not
       }
@@ -58,61 +62,60 @@ void mousePressed(MouseEvent event) {
 void fileSelected(File selection) {
   if (selection !=null) {
     filename=selection.getAbsolutePath();
-    println(filename);
-    newGameArray = readArray(filename);
+
+    gameBoard = loadFile(filename);
     //printArray(newGameArray);
   } else { 
     fileLoaded = false;
   }
 } 
 
-Piece[] readArray(String filename) {
-  Piece[] newGameArray = new Piece[0];
-  String array[] = loadStrings(filename);
-  printArray(array);
-  println(array.length);
-  for (int i =0; i < array.length; i=i+3) {
-    String[] coords=split(array[i+1], ',');
-    newGameArray =(Piece[]) append(newGameArray, new Piece(array[i], new Square(int(coords[0]), int(coords[1])), array[i+2] ));
+Board loadFile(String filename) {
+  Board board = new Board(8);
+
+  //load array of lines from file
+  String[] lines = loadStrings(filename);
+  if (lines==null) {
+    board.resetBoard();
+    return board;
   }
-  printArray(newGameArray);
-  fileLoaded = true;
-  return newGameArray;
-} 
 
 
 
+  for (int i=0; i < lines.length; i++) {
+    if (lines[i].isEmpty()) continue;
+    // line is [type,x,y,colour]
+    String[] lineData = split(lines[i], ',');
 
 
-Board loadFile(Piece[] newGameArray, Boolean fileLoaded) { 
-  Board board = new Board();
-  if (!fileLoaded) { // if no file has been selected, will always be false on startup
-
-    // setup default chess board
-    board.addPiece(new Rook(0, 0, "black"));
-    board.addPiece(new Knight(1, 0, "black"));
-    board.addPiece(new Bishop(2, 0, "black"));
-    board.addPiece(new King(3, 0, "black"));
-    board.addPiece(new Queen(4, 0, "black"));
-    board.addPiece(new Bishop(5, 0, "black"));
-    board.addPiece(new Knight(6, 0, "black"));
-    board.addPiece(new Rook(7, 0, "black"));
-    for (int i=0; i<8; i++) board.addPiece(new Pawn(i, 1, "black")) ;
-
-    board.addPiece(new Rook(0, 7, "white"));
-    board.addPiece(new Knight(1, 7, "white"));
-    board.addPiece(new Bishop(2, 7, "white"));
-    board.addPiece(new Queen(3, 7, "white"));
-    board.addPiece(new King(4, 7, "white"));
-    board.addPiece(new Bishop(5, 7, "white"));
-    board.addPiece(new Knight(6, 7, "white"));
-    board.addPiece(new Rook(7, 7, "white"));
-    for (int i=0; i<8; i++) board.addPiece(new Pawn(i, 6, "white"));
-  } else { 
-    for (int i=0; i < newGameArray.length; i++) {
-      board.addPiece( newGameArray[i].Type, newGameArray[i].Position.X, newGameArray[i].Position.Y, newGameArray[i].Colour);
+    Piece newPiece;
+    switch(lineData[0]) {
+    case "Bishop":
+      newPiece = new Bishop(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    case "King":
+      newPiece = new King(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    case "Queen":
+      newPiece = new Queen(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    case "Pawn":
+      newPiece = new Pawn(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    case "Rook":
+      newPiece = new Rook(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    case "Knight":
+      newPiece = new Knight(int(lineData[1]), int(lineData[2]), lineData[3]);
+      break;
+    default:
+      // skip this piece as its invalid
+      continue;
     }
+    println("'" + newPiece.Colour + "'");
+    board.addPiece(newPiece);
   }
+
   return board;
 }
 

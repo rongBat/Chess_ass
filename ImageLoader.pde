@@ -13,9 +13,7 @@ class ImageLoader {
   PImage img_BlackRook;
 
   void loadAll() {
-    for (int i=0; i<30; i++) {
-      img_WhitePawn = loadImage("images/whitePawn.png");
-    }
+    img_WhitePawn = loadImage("images/whitePawn.png");
     img_WhiteQueen = loadImage("images/whiteQueen.png");
     img_WhiteKing = loadImage("images/whiteKing.png");
     img_WhiteBishop = loadImage("images/whiteBishop.png");
