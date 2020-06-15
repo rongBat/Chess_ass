@@ -1,0 +1,19 @@
+King,1,0,white
+Bishop,3,0,white
+Queen,6,0,black
+Pawn,0,1,white
+Pawn,1,1,white
+Pawn,2,1,white
+Pawn,5,1,white
+Pawn,6,1,white
+Rook,6,3,white
+Pawn,0,4,black
+Pawn,1,4,black
+Pawn,2,5,black
+Pawn,3,4,black
+Pawn,6,6,black
+Pawn,7,6,black
+King,2,4,black
+Rook,0,5,black
+Queen,2,7,white
+*Selected[6][0] = target[3][0] 

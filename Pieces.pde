@@ -1,4 +1,4 @@
-// handy integer position storage //<>// //<>//
+// handy integer position storage //<>// //<>// //<>//
 class Square {
   int X, Y;
   Square(int x, int y) {
@@ -139,11 +139,11 @@ class Pawn extends Piece {
     int y_diff = (selected.Y-target.Y);
     if (this.Colour.equals("black") == true) {
       //home row can move two spaces
-      if (selected.X==1 && y_diff==2 && x_diff == 0) return true;
+      if (selected.Y==1 && y_diff==2 && x_diff == 0) return true;
       if (y_diff==1  && x_diff == 0) return true;
     } else {
       //home row can move two spaces
-      if (selected.X==6 && y_diff==-2  && x_diff == 0) return true;
+      if (selected.Y==6 && y_diff==-2  && x_diff == 0) return true;
       if (y_diff==-1  && x_diff == 0) return true;
     }
     return false;

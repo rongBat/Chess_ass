@@ -1,4 +1,4 @@
-Boolean fileLoaded = false;
+Boolean fileLoaded = false; //<>//
 String filename;
 Piece[][] newGameArray;
 
@@ -18,40 +18,44 @@ void mousePressed(MouseEvent event) {
 
     if (clickX >= 290 && clickX <= 410 && clickY >=20 && clickY <= 50) { // if click was in load button
       selectInput("Select a file to Load:", "fileSelected");
-    }
+    } else {
 
 
 
-    //TODO: detect which menu button was pressed
-    else {
+      if (clickX >= 650 && clickY >= 20 && clickY<=50 && clickX <=750) { // if click was in new button
+        //reset board to original layout
+        gameBoard.resetBoard();
+      } else {
 
-      if (clickY >160 && selected == null) { // if first click
-        Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
+        if (clickY >160 && selected == null) { // if first click
+          Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
 
-        // if the clicked square isn't empty:
-        if (gameBoard.getPiece(clickedSquare) != null) {
-          selected = clickedSquare; // store the clicked square for later use
-        }
-      } else { // if a piece is already selected
-        Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
+          // if the clicked square isn't empty:
+          if (gameBoard.getPiece(clickedSquare) != null) {
+            selected = clickedSquare; // store the clicked square for later use
+          }
+        } else { // if a piece is already selected
+          Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
 
 
-        Square target = new Square(clickedSquare.X, clickedSquare.Y);
 
-        // if valid move
-        if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
-          // if the target square is occupied
-          if (gameBoard.getPiece(target)!=null) {
+          Square target = new Square(clickedSquare.X, clickedSquare.Y);
+
+          // if valid move
+          if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
+            // if the target square is occupied
+            if (gameBoard.getPiece(target)!=null) {
               // clear occupied square
               gameBoard.removePiece(target);
+            }
+
+            // move selected piece to target square
+            //add if piece selected is the same as target, not valid
+            gameBoard.movePiece(selected, target);
           }
 
-          // move selected piece to target square
-          //add if piece selected is the same as target, not valid
-          gameBoard.movePiece(selected, target);
+          selected = null; // always clear selected if move was successful or not
         }
-
-        selected = null; // always clear selected if move was successful or not
       }
     }
   }

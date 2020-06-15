@@ -9,7 +9,7 @@ class Board {
     this.clearBoard();
   }
   void clearBoard() {
-    // -1 because array index from 0
+    // -1 because array index from 0// redudndant
     Pieces = new Piece[this.size][this.size];
   }
   void addPiece(Piece piece) {
@@ -48,15 +48,24 @@ class Board {
 
 
   Piece getPiece(Square target) {
-    return Pieces[target.X][target.Y];
+    if (target != null) {
+      println(Pieces[target.X][target.Y]);
+      return Pieces[target.X][target.Y];
+    } else { 
+      return null;
+    }
   }
 
+
   void movePiece(Square from, Square to) {
+    if (Pieces[from.X][from.Y] == Pieces[to.X][to.Y]) {
+      println(Pieces[from.X][from.Y], Pieces[to.X][to.Y]);
+    } else {
+      Piece temp = Pieces[from.X][from.Y]; // store piece temporarily
+      temp.Position = to; // update piece's internal position
 
-    Piece temp = Pieces[from.X][from.Y]; // store piece temporarily
-    temp.Position = to; // update piece's internal position
-
-    Pieces[from.X][from.Y] = null; // clear from square
-    Pieces[to.X][to.Y] = temp; // set target square to temp piece
+      Pieces[from.X][from.Y] = null; // clear from square
+      Pieces[to.X][to.Y] = temp; // set target square to temp piece
+    }
   }
 }
