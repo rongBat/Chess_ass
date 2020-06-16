@@ -16,4 +16,3 @@ Pawn,7,6,black
 King,2,4,black
 Rook,0,5,black
 Queen,2,7,white
-*Selected[6][0] = target[3][0] 

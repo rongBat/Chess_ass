@@ -1,4 +1,4 @@
-// handy integer position storage //<>// //<>// //<>//
+// handy integer position storage  //<>//
 class Square {
   int X, Y;
   Square(int x, int y) {
@@ -45,7 +45,7 @@ class Piece {
 class Bishop extends Piece {
 
   Bishop(int x, int y, String colour) {
-    super("BISHOP", new Square(x, y), colour);
+    super("Bishop", new Square(x, y), colour);
   }
 
   PImage getImage() {
@@ -70,7 +70,7 @@ class Bishop extends Piece {
 class King extends Piece {
 
   King(int x, int y, String colour) {
-    super("KING", new Square(x, y), colour);
+    super("King", new Square(x, y), colour);
   }
 
   PImage getImage() {
@@ -96,7 +96,7 @@ class King extends Piece {
 class Queen extends Piece {
 
   Queen(int x, int y, String colour) {
-    super("QUEEN", new Square(x, y), colour);
+    super("Queen", new Square(x, y), colour);
   }
 
   PImage getImage() {
@@ -123,7 +123,7 @@ class Pawn extends Piece {
 
   Pawn(int x, int y, String colour) {
 
-    super("PAWN", new Square(x, y), colour);
+    super("Pawn", new Square(x, y), colour);
   }
 
   PImage getImage() {
@@ -137,14 +137,15 @@ class Pawn extends Piece {
   boolean isvalidMove(Square target, Square selected) {
     int x_diff = (selected.X-target.X);
     int y_diff = (selected.Y-target.Y);
+    //println(y_diff + "," + x_diff);
     if (this.Colour.equals("black") == true) {
       //home row can move two spaces
-      if (selected.Y==1 && y_diff==2 && x_diff == 0) return true;
-      if (y_diff==1  && x_diff == 0) return true;
+      if (selected.Y==1 && y_diff==-2 && x_diff == 0) return true;
+      if (y_diff==-1 && x_diff == 0) return true;
     } else {
       //home row can move two spaces
-      if (selected.Y==6 && y_diff==-2  && x_diff == 0) return true;
-      if (y_diff==-1  && x_diff == 0) return true;
+      if (selected.Y == 6 && y_diff == 2  && x_diff == 0) return true;
+      if (y_diff == 1 && x_diff == 0) return true;
     }
     return false;
   }
@@ -155,7 +156,7 @@ class Pawn extends Piece {
 class Rook extends Piece {
 
   Rook(int x, int y, String colour) {
-    super("ROOK", new Square(x, y), colour);
+    super("Rook", new Square(x, y), colour);
   }
 
   PImage getImage() {
@@ -178,7 +179,7 @@ class Rook extends Piece {
 
 class Knight extends Piece {
   Knight(int x, int y, String colour) {
-    super("KNIGHT", new Square(x, y), colour);
+    super("Knight", new Square(x, y), colour);
   }
 
   PImage getImage() {

@@ -1,4 +1,4 @@
-Boolean fileLoaded = false; //<>//
+Boolean fileLoaded = false;
 String filename;
 Piece[][] newGameArray;
 
@@ -10,56 +10,56 @@ Piece[][] newGameArray;
 
 void mousePressed(MouseEvent event) {
   // only take input once board is showing:
-  if (!welcomeScreenShowing) {
+  if (welcomeScreenShowing) return;
 
-    int clickX = event.getX();
-    int clickY = event.getY();
-    println(clickX, clickY);
+  int clickX = event.getX();
+  int clickY = event.getY();
+  println(clickX, clickY);
 
-    if (clickX >= 290 && clickX <= 410 && clickY >=20 && clickY <= 50) { // if click was in load button
-      selectInput("Select a file to Load:", "fileSelected");
-    } else {
+  // if click was in load button
+  if (clickX >= 290 && clickX <= 410 && clickY >=20 && clickY <= 50) {
+    selectInput("Select a file to Load:", "fileSelected");
+    // if click was in save button
+  } else if (clickX >= 470 && clickX <= 580 && clickY >=20 && clickY <= 50) {
+    selectInput("Select where to save the file:", "saveSelected");
+    // if click was in new button
+  } else if (clickX >= 650 && clickY >= 20 && clickY<=50 && clickX <=750) {
+    //reset board to original layout
+    gameBoard.resetBoard();
+  } else if (clickY >160) {
+    if (selected == null) { // if first click
+      Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
 
+      // if the clicked square isn't empty:
+      if (gameBoard.getPiece(clickedSquare) != null) {
+        selected = clickedSquare; // store the clicked square for later use
+      }
+    } else { // if a piece is already selected        
+      Square target = mouseCoordsToSquare(clickX, clickY);
 
-
-      if (clickX >= 650 && clickY >= 20 && clickY<=50 && clickX <=750) { // if click was in new button
-        //reset board to original layout
-        gameBoard.resetBoard();
+      if (target.X == selected.X && target.Y == selected.Y) {
+        //cancel move if click same square again
+        selected = null;
       } else {
-
-        if (clickY >160 && selected == null) { // if first click
-          Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
-
-          // if the clicked square isn't empty:
-          if (gameBoard.getPiece(clickedSquare) != null) {
-            selected = clickedSquare; // store the clicked square for later use
-          }
-        } else { // if a piece is already selected
-          Square clickedSquare = mouseCoordsToSquare(clickX, clickY);
-
-
-
-          Square target = new Square(clickedSquare.X, clickedSquare.Y);
-
-          // if valid move
-          if (gameBoard.getPiece(selected).isvalidMove(selected, target)) {
-            // if the target square is occupied
-            if (gameBoard.getPiece(target)!=null) {
-              // clear occupied square
-              gameBoard.removePiece(target);
+        // if valid move
+        if (gameBoard.getPiece(selected).isvalidMove(target, selected)) {
+          // if the target square is occupied
+          if (gameBoard.getPiece(target) != null) {
+            // clear occupied square if pieces are different colours
+            if (gameBoard.getPiece(selected).Colour.equals(gameBoard.getPiece(target).Colour) == false) {
+              println(gameBoard.getPiece(selected).Colour + "," + gameBoard.getPiece(target).Colour);
+              gameBoard.removePiece(target); //<>//
             }
-
-            // move selected piece to target square
-            //add if piece selected is the same as target, not valid
-            gameBoard.movePiece(selected, target);
           }
-
-          selected = null; // always clear selected if move was successful or not
+          // move selected piece to target square
+          gameBoard.movePiece(selected, target);
         }
+        selected = null; // always clear selected if move was successful or not
       }
     }
   }
 }
+
 
 
 
@@ -68,9 +68,36 @@ void fileSelected(File selection) {
     filename=selection.getAbsolutePath();
 
     gameBoard = loadFile(filename);
-    //printArray(newGameArray);
   } else { 
     fileLoaded = false;
+  }
+} 
+
+void saveSelected(File selection) {
+  if (selection !=null) {
+    String savename = selection.getAbsolutePath();
+
+    String[] lines = new String[0];
+
+    for (int X = 0; X < gameBoard.size; X++) {
+      for (int Y = 0; Y < gameBoard.size; Y++) { 
+        Piece curPiece = gameBoard.getPiece(new Square(X, Y));
+
+        // if square is empty dont save
+        if (curPiece == null) continue;
+        
+        String line = curPiece.Type + "," +
+          curPiece.Position.X + "," +
+          curPiece.Position.Y + "," +
+          curPiece.Colour ;
+
+        lines = append(lines, line);
+      }
+    }
+    
+    println(lines[0]);
+
+    saveStrings(savename, lines);
   }
 } 
 
@@ -134,5 +161,6 @@ Square mouseCoordsToSquare(int mousex, int mousey) {
   X = constrain(floor(f_X), 0, 7); 
   Y = constrain(floor(f_Y), 0, 7);
 
+  //println(mousex + "," + mousey + "," + X + "," + Y + "," + f_X + "," + f_Y + ",(" + X + "," + Y + ")");
   return new Square(X, Y);
 }

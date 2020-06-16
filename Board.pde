@@ -17,6 +17,7 @@ class Board {
   }
 
   void removePiece(Square target) {
+    println("removing " + target);
     Pieces[target.X][target.Y] = null;
   }
 
@@ -48,24 +49,18 @@ class Board {
 
 
   Piece getPiece(Square target) {
-    if (target != null) {
-      println(Pieces[target.X][target.Y]);
-      return Pieces[target.X][target.Y];
-    } else { 
-      return null;
-    }
+    return Pieces[target.X][target.Y];
   }
 
 
   void movePiece(Square from, Square to) {
-    if (Pieces[from.X][from.Y] == Pieces[to.X][to.Y]) {
-      println(Pieces[from.X][from.Y], Pieces[to.X][to.Y]);
-    } else {
-      Piece temp = Pieces[from.X][from.Y]; // store piece temporarily
-      temp.Position = to; // update piece's internal position
+    //if to square is not empty cancel move
+    if (this.getPiece(to) != null) return;
+    
+    Piece temp = Pieces[from.X][from.Y]; // store piece temporarily
+    temp.Position = to; // update piece's internal position
 
-      Pieces[from.X][from.Y] = null; // clear from square
-      Pieces[to.X][to.Y] = temp; // set target square to temp piece
-    }
+    Pieces[from.X][from.Y] = null; // clear from square
+    Pieces[to.X][to.Y] = temp; // set target square to temp piece
   }
 }
